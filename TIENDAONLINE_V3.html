@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIART PERÚ - Joyas Artesanales Hechas a Mano</title>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --color-pastel-rosa: #f8d7da;
+            --color-pastel-verde: #d1e7dd;
+            --color-pastel-azul: #cfe2ff;
+            --color-pastel-amarillo: #fff3cd;
+            --color-pastel-lila: #e2d9f3;
+            --color-texto: #5a4a6a;
+            --color-blanco: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f7fe;
+            color: var(--color-texto);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--color-pastel-lila), var(--color-pastel-rosa));
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: var(--color-texto);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--color-texto);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: var(--color-blanco);
+            color: var(--color-texto);
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--color-pastel-verde);
+            color: var(--color-texto);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), 
+                        url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 4rem 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-texto);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--color-pastel-lila);
+            color: var(--color-texto);
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: var(--color-pastel-rosa);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 2rem;
+            color: var(--color-texto);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .product-card {
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: var(--color-pastel-amarillo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            color: var(--color-texto);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 0.7rem;
+            background-color: var(--color-pastel-verde);
+            border: none;
+            border-radius: 10px;
+            color: var(--color-texto);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--color-pastel-azul);
+        }
+        
+        .page {
+            display: none;
+            padding: 2rem 1rem;
+            min-height: 60vh;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--color-blanco);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .about-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .category-card {
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-pastel-lila);
+        }
+        
+        .discounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .discount-card {
+            background: linear-gradient(135deg, var(--color-pastel-rosa), var(--color-pastel-lila));
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .discount-percentage {
+            background-color: var(--color-pastel-verde);
+            color: var(--color-texto);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-container {
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background-color: var(--color-pastel-amarillo);
+            overflow: hidden;
+        }
+        
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cart-item-details h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--color-pastel-azul);
+            color: var(--color-texto);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cart-summary {
+            border-top: 2px solid #eee;
+            padding-top: 1.5rem;
+            text-align: right;
+        }
+        
+        .cart-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkout-btn {
+            background-color: var(--color-pastel-verde);
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .admin-section {
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .admin-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .admin-products {
+            margin-top: 2rem;
+        }
+        
+        .admin-product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--color-pastel-amarillo);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .admin-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .edit-btn {
+            background-color: var(--color-pastel-azul);
+            color: var(--color-texto);
+        }
+        
+        .delete-btn {
+            background-color: var(--color-pastel-rosa);
+            color: var(--color-texto);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--color-pastel-lila), var(--color-pastel-rosa));
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-blanco);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-texto);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-gem"></i>
+                    <h1>SHIART PERÚ</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="home">INICIO</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">QUIENES SOMOS</a></li>
+                        <li><a href="#" class="nav-link" data-page="categories">CATEGORÍAS</a></li>
+                        <li><a href="#" class="nav-link" data-page="discounts">DESCUENTOS</a></li>
+                        <li><a href="#" class="nav-link" data-page="admin">ADMIN</a></li>
+                    </ul>
+                </nav>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Página de Inicio -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h2 class="animate__animated animate__fadeInDown">Joyas Artesanales Hechas a Mano</h2>
+                <p class="animate__animated animate__fadeInUp">Descubre nuestra exclusiva colección de accesorios únicos elaborados con materiales naturales como cuarzo, tawas, cuero y madera.</p>
+                <a href="#" class="btn animate__animated animate__pulse animate__delay-1s">Explorar Colección</a>
+            </div>
+            
+            <div class="container">
+                <h2 class="section-title">Productos Destacados</h2>
+                <div class="products-grid" id="featuredProducts">
+                    <!-- Los productos se cargarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Página Quiénes Somos -->
+        <section id="about" class="page">
+            <div class="container">
+                <h2 class="section-title">Quiénes Somos</h2>
+                <div class="about-content">
+                    <p>SHIART PERÚ es un emprendimiento fundado por <strong>Shiarlene Acevedo Castillo</strong>, dedicado al diseño y elaboración de accesorios hechos a mano. Nuestra misión es ofrecer una propuesta diferente, demostrando que no siempre es necesario recurrir a metales preciosos para resaltar la belleza.</p>
+                    <p>Con buen gusto e imaginación, creamos verdaderas joyas a partir de materiales naturales alternativos como piedras de cuarzo, tawas, cuero, madera y diferentes telas. Nuestras colecciones son exclusivas y limitadas, compuestas por piezas únicas como aretes y collares.</p>
+                    <p>Elaboramos nuestras piezas con técnicas artesanales propias de Cusco, lo que refleja autenticidad, originalidad y valor cultural en cada creación. Cada pieza cuenta una historia y está hecha con amor y dedicación.</p>
+                    <p>Valoramos la conexión con nuestros clientes y nos enorgullece ofrecer productos que no solo son hermosos, sino que también llevan consigo la esencia de nuestra cultura y tradición artesanal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página Categorías -->
+        <section id="categories" class="page">
+            <div class="container">
+                <h2 class="section-title">Nuestras Categorías</h2>
+                <div class="categories">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3>Collares</h3>
+                        <p>Piezas únicas con piedras naturales</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-ring"></i>
+                        </div>
+                        <h3>Aretes</h3>
+                        <p>Diseños exclusivos y livianos</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-hand-sparkles"></i>
+                        </div>
+                        <h3>Pulseras</h3>
+                        <p>Combinaciones de materiales naturales</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>Accesorios</h3>
+                        <p>Para ocasiones especiales</p>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Productos por Categoría</h2>
+                <div class="products-grid" id="categoryProducts">
+                    <!-- Los productos se cargarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Página Descuentos -->
+        <section id="discounts" class="page">
+            <div class="container">
+                <h2 class="section-title">Ofertas Especiales</h2>
+                <div class="discounts-grid">
+                    <div class="discount-card">
+                        <div class="discount-percentage">20%</div>
+                        <h3>Colección Primavera</h3>
+                        <p>Descuento en toda la colección primavera hasta agotar stock.</p>
+                        <a href="#" class="btn">Ver Oferta</a>
+                    </div>
+                    <div class="discount-card">
+                        <div class="discount-percentage">15%</div>
+                        <h3>Compra Mínima</h3>
+                        <p>Obtén 15% de descuento en compras superiores a S/ 150.</p>
+                        <a href="#" class="btn">Ver Oferta</a>
+                    </div>
+                    <div class="discount-card">
+                        <div class="discount-percentage">10%</div>
+                        <h3>Primera Compra</h3>
+                        <p>Nuevos clientes obtienen 10% de descuento en su primera compra.</p>
+                        <a href="#" class="btn">Ver Oferta</a>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Productos en Oferta</h2>
+                <div class="products-grid" id="discountProducts">
+                    <!-- Los productos se cargarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Página Carrito -->
+        <section id="cart" class="page">
+            <div class="container">
+                <h2 class="section-title">Tu Carrito de Compras</h2>
+                <div class="cart-container">
+                    <div class="cart-items" id="cartItems">
+                        <!-- Los productos del carrito se cargarán dinámicamente -->
+                    </div>
+                    <div class="cart-summary">
+                        <div class="cart-total">Total: S/ <span id="cartTotal">0.00</span></div>
+                        <button class="btn checkout-btn" id="checkoutBtn">Finalizar Compra</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página Admin -->
+        <section id="admin" class="page">
+            <div class="container">
+                <h2 class="section-title">Panel de Administración</h2>
+                <div class="admin-section">
+                    <h3>Agregar Nuevo Producto</h3>
+                    <form class="admin-form" id="productForm">
+                        <div class="form-group">
+                            <label for="productName">Nombre del Producto</label>
+                            <input type="text" id="productName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productDescription">Descripción</label>
+                            <textarea id="productDescription" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="productPrice">Precio (S/)</label>
+                            <input type="number" id="productPrice" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCategory">Categoría</label>
+                            <select id="productCategory" class="form-control" required>
+                                <option value="">Selecciona una categoría</option>
+                                <option value="collares">Collares</option>
+                                <option value="aretes">Aretes</option>
+                                <option value="pulseras">Pulseras</option>
+                                <option value="accesorios">Accesorios</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productImage">URL de la Imagen</label>
+                            <input type="text" id="productImage" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn">Agregar Producto</button>
+                    </form>
+                    
+                    <div class="admin-products">
+                        <h3>Productos Existentes</h3>
+                        <div id="adminProductsList">
+                            <!-- Los productos se cargarán dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <i class="fas fa-gem"></i>
+                    <h2>SHIART PERÚ</h2>
+                </div>
+                <p>Joyas artesanales hechas a mano con materiales naturales</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 SHIART PERÚ - Todos los derechos reservados</p>
+                    <p>Fundadora: Shiarlene Acevedo Castillo</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Datos iniciales de productos
+        let products = [
+            {
+                id: 1,
+                name: "Collar de Cuarzo Rosa",
+                description: "Elegante collar con piedra de cuarzo rosa natural",
+                price: 45.00,
+                category: "collares",
+                image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 2,
+                name: "Aretes de Tawa",
+                description: "Aretes artesanales elaborados con tawa y detalles en plata",
+                price: 35.00,
+                category: "aretes",
+                image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 3,
+                name: "Pulsera de Cuero y Madera",
+                description: "Pulsera tejida con cuero natural y cuentas de madera",
+                price: 28.00,
+                category: "pulseras",
+                image: "https://images.unsplash.com/photo-1588444650700-6c7f0c89d36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 4,
+                name: "Set Completo Primavera",
+                description: "Set que incluye collar y aretes con motivos florales",
+                price: 75.00,
+                category: "accesorios",
+                image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 5,
+                name: "Collar Largo de Cuarzo Blanco",
+                description: "Collar largo con múltiples piedras de cuarzo blanco",
+                price: 52.00,
+                category: "collares",
+                image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            },
+            {
+                id: 6,
+                name: "Aretes Minimalistas",
+                description: "Aretes con diseño minimalista en plata y detalles dorados",
+                price: 32.00,
+                category: "aretes",
+                image: "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+            }
+        ];
+
+        // Carrito de compras
+        let cart = [];
+        let editingProductId = null;
+
+        // Elementos del DOM
+        const cartIcon = document.getElementById('cartIcon');
+        const cartCount = document.querySelector('.cart-count');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const productForm = document.getElementById('productForm');
+        const adminProductsList = document.getElementById('adminProductsList');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            renderAdminProducts();
+            setupEventListeners();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Navegación entre páginas
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    
+                    // Si es el carrito, manejarlo de forma especial
+                    if (pageId === 'cart') {
+                        showCart();
+                    } else {
+                        showPage(pageId);
+                    }
+                    
+                    // Actualizar clase activa
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Icono del carrito
+            cartIcon.addEventListener('click', function() {
+                showCart();
+                
+                // Actualizar clase activa
+                navLinks.forEach(l => l.classList.remove('active'));
+            });
+
+            // Botón de finalizar compra
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    Swal.fire({
+                        title: 'Carrito vacío',
+                        text: 'Agrega productos al carrito antes de finalizar la compra',
+                        icon: 'warning',
+                        confirmButtonText: 'Entendido'
+                    });
+                    return;
+                }
+                
+                sendWhatsAppOrder();
+            });
+
+            // Formulario de productos
+            productForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleProductFormSubmit();
+            });
+        }
+
+        // Mostrar página específica
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Mostrar carrito
+        function showCart() {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('cart').classList.add('active');
+            renderCart();
+        }
+
+        // Renderizar productos en las páginas
+        function renderProducts() {
+            const featuredProductsContainer = document.getElementById('featuredProducts');
+            const categoryProductsContainer = document.getElementById('categoryProducts');
+            const discountProductsContainer = document.getElementById('discountProducts');
+            
+            // Limpiar contenedores
+            featuredProductsContainer.innerHTML = '';
+            categoryProductsContainer.innerHTML = '';
+            discountProductsContainer.innerHTML = '';
+            
+            // Productos destacados (primeros 4 productos)
+            products.slice(0, 4).forEach(product => {
+                featuredProductsContainer.appendChild(createProductCard(product));
+            });
+            
+            // Productos por categoría (todos los productos)
+            products.forEach(product => {
+                categoryProductsContainer.appendChild(createProductCard(product));
+            });
+            
+            // Productos en descuento (últimos 3 productos)
+            products.slice(-3).forEach(product => {
+                discountProductsContainer.appendChild(createProductCard(product));
+            });
+        }
+
+        // Crear tarjeta de producto
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card animate__animated animate__fadeIn';
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="product-price">S/ ${product.price.toFixed(2)}</div>
+                    <button class="add-to-cart" data-id="${product.id}">Agregar al Carrito</button>
+                </div>
+            `;
+            
+            // Agregar evento al botón
+            const addToCartBtn = card.querySelector('.add-to-cart');
+            addToCartBtn.addEventListener('click', function() {
+                addToCart(product.id);
+            });
+            
+            return card;
+        }
+
+        // Agregar producto al carrito
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            
+            // Mostrar confirmación
+            Swal.fire({
+                title: '¡Producto agregado!',
+                text: `${product.name} ha sido agregado al carrito`,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
+        // Actualizar contador del carrito
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Renderizar carrito
+        function renderCart() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center">Tu carrito está vacío</p>';
+                cartTotal.textContent = '0.00';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-info">
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <p>S/ ${item.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                        <button class="quantity-btn remove" data-id="${item.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            // Actualizar total
+            cartTotal.textContent = total.toFixed(2);
+            
+            // Agregar eventos a los botones del carrito
+            document.querySelectorAll('.decrease').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    decreaseQuantity(id);
+                });
+            });
+            
+            document.querySelectorAll('.increase').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    increaseQuantity(id);
+                });
+            });
+            
+            document.querySelectorAll('.remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(id);
+                });
+            });
+        }
+
+        // Disminuir cantidad en el carrito
+        function decreaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+            } else {
+                removeFromCart(productId);
+                return;
+            }
+            
+            renderCart();
+            updateCartCount();
+        }
+
+        // Aumentar cantidad en el carrito
+        function increaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            item.quantity += 1;
+            renderCart();
+            updateCartCount();
+        }
+
+        // Eliminar producto del carrito
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            renderCart();
+            updateCartCount();
+            
+            // Mostrar confirmación
+            Swal.fire({
+                title: 'Producto eliminado',
+                text: 'El producto ha sido eliminado del carrito',
+                icon: 'info',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
+        // Enviar pedido por WhatsApp
+        function sendWhatsAppOrder() {
+            let message = "Hola, me interesa realizar el siguiente pedido:%0A%0A";
+            
+            cart.forEach(item => {
+                message += `- ${item.name} (Cantidad: ${item.quantity}) - S/ ${(item.price * item.quantity).toFixed(2)}%0A`;
+            });
+            
+            message += `%0ATotal: S/ ${cartTotal.textContent}%0A%0AMis datos de contacto:%0ANombre: [INGRESA TU NOMBRE]%0ADirección: [INGRESA TU DIRECCIÓN]`;
+            
+            const phoneNumber = "51987654321"; // Número de ejemplo, reemplazar con el real
+            const url = `https://wa.me/${phoneNumber}?text=${message}`;
+            
+            Swal.fire({
+                title: '¿Confirmar pedido?',
+                text: 'Serás redirigido a WhatsApp para completar tu pedido',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open(url, '_blank');
+                    
+                    // Limpiar carrito después del pedido
+                    cart = [];
+                    updateCartCount();
+                    renderCart();
+                }
+            });
+        }
+
+        // Renderizar productos en el panel de administración
+        function renderAdminProducts() {
+            adminProductsList.innerHTML = '';
+            
+            if (products.length === 0) {
+                adminProductsList.innerHTML = '<p>No hay productos registrados</p>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'admin-product-item';
+                productItem.innerHTML = `
+                    <div>
+                        <h4>${product.name}</h4>
+                        <p>S/ ${product.price.toFixed(2)} - ${product.category}</p>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="admin-btn edit-btn" data-id="${product.id}">Editar</button>
+                        <button class="admin-btn delete-btn" data-id="${product.id}">Eliminar</button>
+                    </div>
+                `;
+                
+                adminProductsList.appendChild(productItem);
+            });
+            
+            // Agregar eventos a los botones
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    editProduct(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    deleteProduct(id);
+                });
+            });
+        }
+
+        // Manejar envío del formulario de productos
+        function handleProductFormSubmit() {
+            const name = document.getElementById('productName').value;
+            const description = document.getElementById('productDescription').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const category = document.getElementById('productCategory').value;
+            const image = document.getElementById('productImage').value;
+            
+            if (editingProductId) {
+                // Editar producto existente
+                const index = products.findIndex(p => p.id === editingProductId);
+                if (index !== -1) {
+                    products[index] = {
+                        ...products[index],
+                        name,
+                        description,
+                        price,
+                        category,
+                        image
+                    };
+                    
+                    Swal.fire({
+                        title: 'Producto actualizado',
+                        text: 'El producto ha sido actualizado correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+                
+                editingProductId = null;
+                document.querySelector('#productForm button').textContent = 'Agregar Producto';
+            } else {
+                // Agregar nuevo producto
+                const newProduct = {
+                    id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
+                    name,
+                    description,
+                    price,
+                    category,
+                    image
+                };
+                
+                products.push(newProduct);
+                
+                Swal.fire({
+                    title: 'Producto agregado',
+                    text: 'El producto ha sido agregado correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+            
+            // Limpiar formulario
+            productForm.reset();
+            
+            // Actualizar vistas
+            renderProducts();
+            renderAdminProducts();
+        }
+
+        // Editar producto
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productImage').value = product.image;
+            
+            editingProductId = id;
+            document.querySelector('#productForm button').textContent = 'Actualizar Producto';
+            
+            // Desplazarse al formulario
+            document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Eliminar producto
+        function deleteProduct(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    products = products.filter(p => p.id !== id);
+                    
+                    // Si el producto está en el carrito, eliminarlo también
+                    cart = cart.filter(item => item.id !== id);
+                    updateCartCount();
+                    
+                    renderProducts();
+                    renderAdminProducts();
+                    
+                    Swal.fire({
+                        title: 'Producto eliminado',
+                        text: 'El producto ha sido eliminado correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
